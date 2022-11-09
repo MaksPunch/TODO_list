@@ -1,0 +1,234 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&display=swap');
+
+body, p {
+	margin: 0;
+	font-family: 'Comfortaa', serif;
+}
+
+.todo_list {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.todo_switches {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	gap: 88px;
+	color: rgba(0, 0, 0, 0.5);
+}
+
+.todo_switches h1 {
+	cursor: pointer;
+	font-size: 64px;
+	line-height: 25px;
+	transition: color .2s ease-out;
+}
+
+.active {
+	color: #000;
+}
+
+.todo_container {
+	background: #393939;
+	width: 90%;
+	height: 80%;
+	color: #fff;
+	border-radius: 50px;
+}
+
+.todo_header_container {
+	display: flex;
+	justify-content: center;
+	gap: 42px;
+}
+
+.todo_header {
+	font-weight: 700;
+	font-size: 48px;
+	color: #fff;
+}
+
+.sort_btn {
+	display: flex;
+	align-items: center;
+	font-size: 24px;
+}
+
+.todo_content_container {
+	padding-top: 13%;
+	max-height: 250px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	overflow-y: auto;
+}
+
+.todo_content_container::-webkit-scrollbar {
+	width: 40px;
+	right: 100px;
+}
+.todo_content_container::-webkit-scrollbar-track {
+	background: #393939;
+	border: 30px #393939 solid;
+}
+.todo_content_container::-webkit-scrollbar-thumb {
+	background-color: rgba(255, 255, 255, .5);
+	border-radius: 20px; 
+	border: solid 15px #393939;
+}
+
+.task_container {
+	display: flex;
+	justify-content: center;
+	width: 75%;
+	gap: 15px;
+}
+
+.task {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+
+.task_priority {
+	width: 20px;
+	height: 20px;
+	box-shadow: 0px 0px 7px 1px rgba(0, 0, 0, 0.25);
+	border-radius: 15px;
+}
+
+.task_block {
+	display: flex;
+	flex-direction: column;
+	border: 1px solid #C4C4C4;
+	border-radius: 15px;
+}
+
+.task_btns {
+	align-self: flex-end;
+}
+
+.task_header_container {
+	display: flex;
+	align-items: center;
+	gap: 15px;
+}
+
+.task_header {
+	display: flex;
+	justify-content: space-around;
+}
+
+.task_header p {
+	line-height: 1.5;
+	height: 100%;
+}
+
+.task_header p:last-child {
+	border-left: 1px solid #C4C4C4;
+	padding-left: 15px;
+}
+
+.task_addition_info_container {
+	padding: 15px 20px;
+	border-top: 1px solid #C4C4C4;
+}
+
+.task_addition_info_container div:nth-child(-n+2) {
+	margin-bottom: 8px;
+	padding-bottom: 8px;
+	border-bottom: 1px solid #c4c4c4;
+}
+
+.task_expand {
+	display: flex;
+	align-items: center;
+    cursor: pointer;
+    height: 18px;
+    width: 18px;
+    position: relative;
+	margin-top: 7px;
+}
+.task_expand_top, 
+.task_expand_bottom {
+    background: #C4C4C4;
+    height: 2px;
+    position: absolute;
+    width: 10px;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+.task_expand_top {
+    transform: rotate(45deg);
+    transform-origin: bottom right;
+}
+.task_expand_bottom {
+    transform: rotate(135deg) translate(1px, -2px);
+    transform-origin: top right;
+}
+
+.task_btns {
+	display: flex;
+	gap: 27px;
+	margin-top: 15px;
+	margin-bottom: 20px;
+}
+
+.close_task_btn, .delete_task_btn {
+	width: 190px;
+	height: 50px;
+	border: 0;
+	box-shadow: 3px 4px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 15px;
+	font-family: 'Comfortaa';
+	font-weight: 700;
+	font-size: 24px;
+	text-align: center;
+
+	color: #FFFFFF;
+
+	text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+
+	cursor: pointer;
+}
+
+.close_task_btn {
+	background: #282828;
+}
+
+.delete_task_btn {
+	background: #8B8B8B;;
+}
+
+.red {
+	background: #FF2424;
+}
+
+.yellow {
+	background: #EDD500;
+}
+
+.green {
+	background: #00FF00;
+}
+
+.todo_footer {
+	border-top: 1px solid #c4c4c4;
+	padding-top: 20px;
+	padding-left: 15%;
+	margin-bottom: 20px;
+}
+
+
+
+.pic-ctn {
+  position: relative;
+  width: 100vw;
+  height: 300px;
+  margin-top: 15vh;
+}

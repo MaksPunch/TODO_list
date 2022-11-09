@@ -1,0 +1,46 @@
+extends layout.pug
+
+block title
+    <title>#{title}</title>
+
+block content
+    div(class='todo_list')
+        div(class='todo_switches')
+            h1.todo_switch Closed Tasks
+            h1(class='active todo_switch') TODO List 
+            h1.todo_switch Add a Task
+        div(class='todo_container')
+            div(class='todo_header_container')
+                h2(class='todo_header') Tasks
+                div(class='sort_btn')
+                    p Сортировать по меткам
+                    img(src='/static/sort.png' alt='sort')
+            div.todo_content_container
+                each val in tasksList
+                    if val.openStatus
+                        div.task_container
+                            div.task_priority(class=`${val.color}`)
+                            div.task
+                                div.task_block
+                                    div.task_header
+                                        p #{val.header}
+                                        p #{val.worker}
+                                    if val.expandStatus
+                                        div.task_addition_info_container
+                                            div.task_text_prioirity
+                                                p #{val.priority}
+                                            div.task_addition_info
+                                                p #{val.info}
+                                            div.task_deadline
+                                                p #{val.dl}
+                                div.task_btns
+                                    input(type='button', value='Завершить').close_task_btn
+                                    input(type='button', value='Удалить').delete_task_btn
+                            div.task_expand
+                                div.task_expand_top
+                                div.task_expand_bottom
+            div.todo_footer
+                p Итого заданий: #{tasksList.length}
+
+block closedTasks
+
