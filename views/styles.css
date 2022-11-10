@@ -5,6 +5,14 @@ body, p {
 	font-family: 'Comfortaa', serif;
 }
 
+.hidden {
+	opacity: 0;
+	visibility: hidden !important;
+	overflow: hidden;
+	height: 0 !important;
+	padding: 0 !important;
+}
+
 .todo_list {
 	display: flex;
 	justify-content: center;
@@ -58,27 +66,24 @@ body, p {
 }
 
 .todo_content_container {
-	padding-top: 13%;
-	max-height: 250px;
+	max-height: 500px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
 	overflow-y: auto;
 }
 
 .todo_content_container::-webkit-scrollbar {
-	width: 40px;
-	right: 100px;
+	width: 10px;
 }
 .todo_content_container::-webkit-scrollbar-track {
 	background: #393939;
-	border: 30px #393939 solid;
+	border: 5px #393939 solid;
 }
 .todo_content_container::-webkit-scrollbar-thumb {
 	background-color: rgba(255, 255, 255, .5);
 	border-radius: 20px; 
-	border: solid 15px #393939;
+	border: solid 2px #393939;
 }
 
 .task_container {
@@ -137,6 +142,7 @@ body, p {
 .task_addition_info_container {
 	padding: 15px 20px;
 	border-top: 1px solid #C4C4C4;
+	transition: all .2s;
 }
 
 .task_addition_info_container div:nth-child(-n+2) {
@@ -153,6 +159,7 @@ body, p {
     width: 18px;
     position: relative;
 	margin-top: 7px;
+	transition: all .2s;
 }
 .task_expand_top, 
 .task_expand_bottom {
@@ -172,6 +179,10 @@ body, p {
     transform-origin: top right;
 }
 
+.task_expand_rotate {
+	transform: rotate(-90deg);
+}
+
 .task_btns {
 	display: flex;
 	gap: 27px;
@@ -179,8 +190,8 @@ body, p {
 	margin-bottom: 20px;
 }
 
-.close_task_btn, .delete_task_btn {
-	width: 190px;
+.close_task_btn, .delete_task_btn, .reset_task_btn {
+	width: auto;
 	height: 50px;
 	border: 0;
 	box-shadow: 3px 4px 4px rgba(0, 0, 0, 0.25);
@@ -201,8 +212,12 @@ body, p {
 	background: #282828;
 }
 
-.delete_task_btn {
+.delete_task_btn, .reset_task_btn {
 	background: #8B8B8B;;
+}
+
+.reset_task_btn {
+	width: auto;
 }
 
 .red {
@@ -224,11 +239,12 @@ body, p {
 	margin-bottom: 20px;
 }
 
+.addTask_container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
 
-
-.pic-ctn {
-  position: relative;
-  width: 100vw;
-  height: 300px;
-  margin-top: 15vh;
+.addTask_input {
+	display: flex;
 }

@@ -4,7 +4,7 @@ const app = express()
 const path = require("path");
 const cors = require("cors");
 const morgan = require("morgan");
-const {variables, findTask} = require(path.join(__dirname, "db/variables.js"));
+const {variables} = require(path.join(__dirname, "db/variables.js"));
 const dashboard = variables();
 
 app.use(cors());
