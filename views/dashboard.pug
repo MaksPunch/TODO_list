@@ -18,11 +18,11 @@ block content
             div.todo_content_container
                 each val in tasksList
                     if val.openStatus
-                        div.task_container(id=`${val.id}`)
+                        div.task_container(id=`id${val.id}`)
                             div.task_priority(class=`${val.color}`)
                             div.task
                                 div.task_block
-                                    div.task_header
+                                    div.task_header(id=`id${val.id}`)
                                         p #{val.header}
                                         p #{val.worker}
                                     if val.expandStatus
@@ -65,7 +65,7 @@ block content
                             div.task_priority(class=`${val.color}`)
                             div.task
                                 div.task_block
-                                    div.task_header
+                                    div.task_header(id=`id${val.id}`)
                                         p #{val.header}
                                         p #{val.worker}
                                     if val.expandStatus
@@ -96,22 +96,64 @@ block content
                                     div.task_expand_bottom
             div.todo_footer
                 p Итого заданий: #{closedTasks.length}
-        div(class='todo_container hidden addTask')
+        div(class='todo_container addTask hidden')
             div(class='todo_header_container')
                 h2(class='todo_header') Add a Task
             div.addTask_container
-                div.taskName_container.addTask_input
+                div.addTask_input
                     h3 Название задачи
                     input(type='text' placeholder='Название задачи...')
-                div.worker_container.addTask_input
+                div.addTask_input
                     h3 Ответственный за задание
                     input(type='text' placeholder='Выбрать сотрудника')
-                div.taskPriority_container.addTask_input
+                div.addTask_input
                     h3 Приоритет задания
                     input(type='text' placeholder='Приоритет')
-                div.taskDescription_container.addTask_input
+                div.addTaskDescription_container.addTask_input
                     h3 Описание задачи
-                    input(type='text' placeholder='Описание...')
-                div.TaskDeadline_container.addTask_input
+                    textarea(placeholder='Описание...')
+                div.addTask_input
                     h3 Дедлайн
                     input(type='text' placeholder='22.02.2022')
+                div.addTask_btns
+                    input.addTask_btn(type='button' value='Завершить')
+                    input.cancel_btn(type='button' value='Отмена')
+        div(class='todo_container taskDescription hidden')
+            each task in tasksList
+                div.taskDescription_container.hidden(id=`id${task.id}`)
+                    div(class='task_description_header_container')
+                        h2(class='todo_header') Tasks
+                        h2.task_name #{task.header}
+                    div.taskDescription_content
+                        div.taskDescription_priority(class=`${task.color}`)
+                            p Приоритет: #{task.priority.split(' ')[0].toLowerCase()}
+                        div.taskDescription_advanced
+                            div.taskDescription_header
+                                img(src='/static/description.png')
+                                h2 Описание
+                            div.taskDescription_text
+                                textarea #{task.fullDescription}
+                        div.taskDescription_row_2
+                            div.taskDescription_worker_container
+                                div.taskDescription_worker_header
+                                    img(src='/static/pfp.png')
+                                    h2 Ответственный за задание
+                                div.taskDescription_worker_value
+                                    textarea #{task.worker}
+                            div.taskDescription_tag_container
+                                h2 Метка
+                                textarea #{task.tag}
+                            div.taskDescription_dl_container
+                                h2 Дедлайн
+                                textarea #{task.dl}
+                        div.taskDescription_statusBar_container
+                            div.taskDescription_statusBar_header
+                                img(src='/static/status.png')
+                                h2 Статус
+                            div.taskDescription_statusBar
+                                div(style=`width: ${task.progress}%`)
+                                p.statusBar_percent #{task.progress}%
+                    div.taskDescription_btns
+                        input.update_btn(type='button' value='Обновить')
+                        input.taskDescription_cancel_btn(type='button' value='Отмена')
+                        input.delete_btn(type='button' value='Удалить')
