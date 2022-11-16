@@ -1,3 +1,4 @@
+'use strict'
 let switches = document.querySelectorAll('.todo_switch');
 let windows = document.querySelectorAll('.todo_container');
 let taskDescriptionContainers = document.querySelectorAll('.taskDescription_container');
@@ -34,10 +35,37 @@ taskHeaders.forEach( (value) => {
 	let todoWindow = document.querySelector('.todo_container');
 	let taskDescription = document.querySelector('.taskDescription');
 	value.addEventListener('click', () => {
-		console.log(taskContainer)
 		taskContainer.classList.remove('hidden');
 		todoWindow.classList.add('hidden');
 		taskDescription.classList.remove('hidden');
 	})
 })
 
+async function sendData(data) {
+  return await fetch('/addTask', {
+    method: 'POST',
+    headers: { 'Content-Type': 'multipart/form-data' },
+    body: JSON.stringify({ "id": 78912 }),
+  })
+}
+
+function serializeForm(formNode) {
+  const { elements } = formNode
+  const data = Array.from(elements)
+    .filter((item) => !!item.name)
+    .map((element) => {
+      const { name, value } = element
+      return { name, value }
+    })
+  return data
+}
+
+function handleFormSubmit(event) {
+  event.preventDefault()	
+  console.log(applicantForm)
+
+  document.getElementById('addTaskForm').submit();
+}
+
+const applicantForm = document.querySelector('#addTaskForm')
+applicantForm.addEventListener('submit', handleFormSubmit)
