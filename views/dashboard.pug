@@ -42,8 +42,10 @@ block content
                                             div.task_deadline
                                                 p #{val.dl}
                                 div.task_btns
-                                    input(type='button', value='Завершить').close_task_btn
-                                    input(type='button', value='Удалить').delete_task_btn
+                                    form(action=`/closeTask/${val.id}` method='post')
+                                        input(type='submit', value='Завершить').close_task_btn
+                                    form(action=`/deleteTask/${val.id}` method='post')
+                                        input(type='submit', value='Удалить' id=`id${val.id}`).delete_task_btn
                             if val.expandStatus
                                 div.task_expand.task_expand_rotate(id=`id${val.id}`)
                                     div.task_expand_top
@@ -85,7 +87,8 @@ block content
                                             div.task_deadline
                                                 p #{val.dl}
                                 div.task_btns
-                                    input(type='button', value='Восстановить задание').reset_task_btn
+                                    form(action=`/resetTask/${val.id}` method='post')
+                                        input(type='submit', value='Восстановить задание').reset_task_btn
                             if val.expandStatus
                                 div.task_expand.task_expand_rotate(id=`id${val.id}`)
                                     div.task_expand_top
@@ -100,7 +103,7 @@ block content
             div(class='todo_header_container')
                 h2(class='todo_header') Add a Task
             div.addTask_container
-                form#addTaskForm(action='/addTask' method='post')
+                form(action='/addTask' method='post')
                     div.addTask_input#name
                         h3 Название задачи
                         input(name='name' type='text' placeholder='Название задачи...' reqired)
@@ -128,36 +131,38 @@ block content
                     div(class='task_description_header_container')
                         h2(class='todo_header') Tasks
                         h2.task_name #{task.header}
-                    div.taskDescription_content
-                        div.taskDescription_priority(class=`${task.color}`)
-                            p Приоритет: #{task.priority.split(' ')[0].toLowerCase()}
-                        div.taskDescription_advanced
-                            div.taskDescription_header
-                                img(src='/static/description.png')
-                                h2 Описание
-                            div.taskDescription_text
-                                textarea #{task.info}
-                        div.taskDescription_row_2
-                            div.taskDescription_worker_container
-                                div.taskDescription_worker_header
-                                    img(src='/static/pfp.png')
-                                    h2 Ответственный за задание
-                                div.taskDescription_worker_value
-                                    textarea #{task.worker}
-                            div.taskDescription_tag_container
-                                h2 Метка
-                                textarea #{task.tag}
-                            div.taskDescription_dl_container
-                                h2 Дедлайн
-                                textarea #{task.dl}
-                        div.taskDescription_statusBar_container
-                            div.taskDescription_statusBar_header
-                                img(src='/static/status.png')
-                                h2 Статус
-                            div.taskDescription_statusBar
-                                div(style=`width: ${task.progress}%`)
-                                p.statusBar_percent #{task.progress}%
-                    div.taskDescription_btns
-                        input.update_btn(type='button' value='Обновить')
-                        input.taskDescription_cancel_btn(type='button' value='Отмена')
-                        input.delete_btn(type='button' value='Удалить')
+                    form#deleteTaskForm(action=`/deleteTask/${task.id}` method='post')
+                    form#updateTaskForm(action=`/updateTask/${task.id}` method='post')
+                        div.taskDescription_content
+                            div.taskDescription_priority(class=`${task.color}`)
+                                p Приоритет: #{task.priority.split(' ')[0].toLowerCase()}
+                            div.taskDescription_advanced
+                                div.taskDescription_header
+                                    img(src='/static/description.png')
+                                    h2 Описание
+                                div.taskDescription_text
+                                    textarea(name="info") #{task.info}
+                            div.taskDescription_row_2
+                                div.taskDescription_worker_container
+                                    div.taskDescription_worker_header
+                                        img(src='/static/pfp.png')
+                                        h2 Ответственный за задание
+                                    div.taskDescription_worker_value
+                                        textarea(name="worker") #{task.worker}
+                                div.taskDescription_tag_container
+                                    h2 Метка
+                                    textarea(name="tag") #{task.tag}
+                                div.taskDescription_dl_container
+                                    h2 Дедлайн
+                                    textarea(name="deadline") #{task.dl}
+                            div.taskDescription_statusBar_container
+                                div.taskDescription_statusBar_header
+                                    img(src='/static/status.png')
+                                    h2 Статус
+                                div.taskDescription_statusBar
+                                    div(style=`width: ${task.progress}%`)
+                                    p.statusBar_percent #{task.progress}%
+                        div.taskDescription_btns
+                            input.update_btn(type='submit' value='Обновить' form='updateTaskForm')
+                            input.taskDescription_cancel_btn(type='button' value='Отмена')
+                            input.delete_btn(type='submit' value='Удалить' form='deleteTaskForm')

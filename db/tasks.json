@@ -10,7 +10,7 @@
     "color": "red",
     "openStatus": true,
     "expandStatus": false,
-    "progress": 60
+    "progress": 90
   },
   {
     "id": 1,
@@ -23,7 +23,7 @@
     "color": "red",
     "openStatus": true,
     "expandStatus": false,
-    "progress": 40
+    "progress": 100
   },
   {
     "id": 2,
@@ -36,6 +36,6 @@
     "color": "green",
     "openStatus": true,
     "expandStatus": false,
-    "progress": 30
+    "progress": 100
   }
 ]

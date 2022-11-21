@@ -39,9 +39,8 @@ app.set('view engine', 'pug')
 
 app.post('/addTask', urlencodedParser, (req, res) => {
   if (!req.body) return res.sendStatus(400)
-  console.log(req.body)
   const user = {
-    id: file.map((a)=>a.openStatus).length,
+    id: file.length,
     priority: req.body.priority,
     info: req.body.info,
     dl: req.body.deadline,
@@ -58,6 +57,90 @@ app.post('/addTask', urlencodedParser, (req, res) => {
     let fileObj = obj;
     fileObj.push(user);
     file.push(user);
+    jsonfile.writeFile(filePath, fileObj, { spaces: 2 }, (err) => {
+      if (err) throw err;
+    })
+  })
+  res.redirect('/dashboard')
+})
+
+app.post('/deleteTask/:id', (req, res) => {
+  jsonfile.readFile(filePath, (err, obj) => {
+    if (err) throw err
+    let fileObj = obj;
+    for(let i = 0; i < fileObj.length; i++) {
+      if (fileObj[i].id == req.params.id) fileObj.splice(i, 1);
+    }
+    jsonfile.writeFile(filePath, fileObj, { spaces: 2 }, (err) => {
+      if (err) throw err;
+    })
+  })
+  res.redirect('/dashboard')
+})
+
+app.post('/updateTask/:id', urlencodedParser, (req, res) => {
+  if (!req.body) return res.sendStatus(400)
+  let prev = file[req.params.id];
+  const user = {
+    id: prev.id,
+    priority: prev.priority,
+    info: req.body.info || prev.info,
+    dl: req.body.deadline || prev.deadline,
+    header: prev.header,
+    worker: req.body.worker || prev.worker,
+    tag: req.body.tag || prev.tag,
+    color: prev.color,
+    openStatus: true,
+    expandStatus: false,
+    progress: 0
+  }
+  jsonfile.readFile(filePath, (err, obj) => {
+    if (err) throw err
+    let fileObj = obj;
+    for (let i = 0; i < fileObj.length; i++) {
+      if(fileObj[i].id == req.params.id) {
+        fileObj[i] = user
+      }
+    }
+    file.push(user);
+    jsonfile.writeFile(filePath, fileObj, { spaces: 2 }, (err) => {
+      if (err) throw err;
+    })
+  })
+  res.redirect('/dashboard')
+})
+
+app.post('/closeTask/:id', (req, res) => {
+  jsonfile.readFile(filePath, (err, obj) => {
+    if (err) throw err
+    let fileObj = obj;
+    for (let i = 0; i < fileObj.length; i++) {
+      if(fileObj[i].id == req.params.id) {
+        fileObj[i].openStatus = false
+        fileObj[i].progress = 100
+        file[i].progress = 100
+        file[i].openStatus = false
+      }
+    }
+    jsonfile.writeFile(filePath, fileObj, { spaces: 2 }, (err) => {
+      if (err) throw err;
+    })
+  })
+  res.redirect('/dashboard')
+})
+
+app.post('/resetTask/:id', (req, res) => {
+  jsonfile.readFile(filePath, (err, obj) => {
+    if (err) throw err
+    let fileObj = obj;
+    for (let i = 0; i < fileObj.length; i++) {
+      if(fileObj[i].id == req.params.id) {
+        fileObj[i].openStatus = true
+        fileObj[i].progress = 90
+        file[i].openStatus = true
+        file[i].progress = 90
+      }
+    }
     jsonfile.writeFile(filePath, fileObj, { spaces: 2 }, (err) => {
       if (err) throw err;
     })

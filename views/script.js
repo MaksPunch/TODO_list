@@ -32,40 +32,13 @@ let taskHeaders = document.querySelectorAll('.task_header');
 
 taskHeaders.forEach( (value) => {
 	let taskContainer = document.querySelector('div#'+value.id+'.taskDescription_container');
-	let todoWindow = document.querySelector('.todo_container');
+	let todoWindows = document.querySelectorAll('.todo_container');
 	let taskDescription = document.querySelector('.taskDescription');
 	value.addEventListener('click', () => {
 		taskContainer.classList.remove('hidden');
-		todoWindow.classList.add('hidden');
+		todoWindows.forEach ( (todoWindow) => {
+			todoWindow.classList.add('hidden');
+		})
 		taskDescription.classList.remove('hidden');
 	})
 })
-
-async function sendData(data) {
-  return await fetch('/addTask', {
-    method: 'POST',
-    headers: { 'Content-Type': 'multipart/form-data' },
-    body: JSON.stringify({ "id": 78912 }),
-  })
-}
-
-function serializeForm(formNode) {
-  const { elements } = formNode
-  const data = Array.from(elements)
-    .filter((item) => !!item.name)
-    .map((element) => {
-      const { name, value } = element
-      return { name, value }
-    })
-  return data
-}
-
-function handleFormSubmit(event) {
-  event.preventDefault()	
-  console.log(applicantForm)
-
-  document.getElementById('addTaskForm').submit();
-}
-
-const applicantForm = document.querySelector('#addTaskForm')
-applicantForm.addEventListener('submit', handleFormSubmit)
