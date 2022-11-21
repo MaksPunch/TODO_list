@@ -1,168 +1,173 @@
 extends layout.pug
 
 block title
-    <title>#{title}</title>
+    title #{title}
 
-block content
+block todo_list
     div(class='todo_list')
-        div(class='todo_switches')
-            h1.todo_switch#closedTasks Closed Tasks
-            h1.active.todo_switch#openTasks TODO List 
-            h1.todo_switch#addTask Add a Task
-        div(class='todo_container openTasks')
-            div(class='todo_header_container')
-                h2(class='todo_header') Tasks
-                div(class='sort_btn')
-                    p Сортировать по меткам
-                    img(src='/static/sort.png' alt='sort')
-            div.todo_content_container
-                each val in tasksList
-                    if val.openStatus
-                        div.task_container(id=`id${val.id}`)
-                            div.task_priority(class=`${val.color}`)
-                            div.task
-                                div.task_block
-                                    div.task_header(id=`id${val.id}`)
-                                        p #{val.header}
-                                        p #{val.worker}
-                                    if val.expandStatus
-                                        div.task_addition_info_container(id=`id${val.id}`)
-                                            div.task_text_prioirity
-                                                p #{val.priority}
-                                            div.task_addition_info
-                                                p #{val.info}
-                                            div.task_deadline
-                                                p #{val.dl}
-                                    else 
-                                        div.task_addition_info_container.hidden(id=`id${val.id}`)
-                                            div.task_text_prioirity
-                                                p #{val.priority}
-                                            div.task_addition_info
-                                                p #{val.info}
-                                            div.task_deadline
-                                                p #{val.dl}
-                                div.task_btns
-                                    form(action=`/closeTask/${val.id}` method='post')
-                                        input(type='submit', value='Завершить').close_task_btn
-                                    form(action=`/deleteTask/${val.id}` method='post')
-                                        input(type='submit', value='Удалить' id=`id${val.id}`).delete_task_btn
-                            if val.expandStatus
-                                div.task_expand.task_expand_rotate(id=`id${val.id}`)
-                                    div.task_expand_top
-                                    div.task_expand_bottom
-                            else 
-                                div.task_expand(id=`id${val.id}`)
-                                    div.task_expand_top
-                                    div.task_expand_bottom
-            div.todo_footer
-                p Итого заданий: #{openTasks.length}
-        div(class='todo_container hidden closedTasks')
-            div(class='todo_header_container')
-                h2(class='todo_header') Closed Tasks
-            div.todo_content_container
-                each val in tasksList
-                    if val.openStatus
-                    else
-                        div.task_container(id=`id${val.id}`)
-                            div.task_priority(class=`${val.color}`)
-                            div.task
-                                div.task_block
-                                    div.task_header(id=`id${val.id}`)
-                                        p #{val.header}
-                                        p #{val.worker}
-                                    if val.expandStatus
-                                        div.task_addition_info_container(id=`id${val.id}`)
-                                            div.task_text_prioirity
-                                                p #{val.priority}
-                                            div.task_addition_info
-                                                p #{val.info}
-                                            div.task_deadline
-                                                p #{val.dl}
-                                    else 
-                                        div.task_addition_info_container.hidden(id=`id${val.id}`)
-                                            div.task_text_prioirity
-                                                p #{val.priority}
-                                            div.task_addition_info
-                                                p #{val.info}
-                                            div.task_deadline
-                                                p #{val.dl}
-                                div.task_btns
-                                    form(action=`/resetTask/${val.id}` method='post')
-                                        input(type='submit', value='Восстановить задание').reset_task_btn
-                            if val.expandStatus
-                                div.task_expand.task_expand_rotate(id=`id${val.id}`)
-                                    div.task_expand_top
-                                    div.task_expand_bottom
-                            else 
-                                div.task_expand(id=`id${val.id}`)
-                                    div.task_expand_top
-                                    div.task_expand_bottom
-            div.todo_footer
-                p Итого заданий: #{closedTasks.length}
-        div(class='todo_container addTask hidden')
-            div(class='todo_header_container')
-                h2(class='todo_header') Add a Task
-            div.addTask_container
-                form(action='/addTask' method='post')
-                    div.addTask_input#name
-                        h3 Название задачи
-                        input(name='name' type='text' placeholder='Название задачи...' reqired)
-                    div.addTask_input#worker
-                        h3 Ответственный за задание
-                        input(name='worker' type='text' placeholder='Выбрать сотрудника' reqired)
-                    div.addTask_input#priority
-                        h3 Приоритет задания
-                        input(name='priority' type='text' placeholder='Приоритет' reqired)
-                    div.addTask_input#tag
-                        h3 Метка задания
-                        input(name='tag' type='text' placeholder='Метка задания' reqired)
-                    div.addTaskDescription_container.addTask_input#info
-                        h3 Описание задачи
-                        textarea(name='info' placeholder='Описание...' reqired)
-                    div.addTask_input#deadline
-                        h3 Дедлайн
-                        input(name='deadline' type='text' placeholder='22.02.2022' reqired)
-                    div.addTask_btns
-                        input.addTask_btn(type='submit' value='Добавить')
-                        input.cancel_btn(type='submit' value='Отмена')
-        div(class='todo_container taskDescription hidden')
-            each task in tasksList
-                div.taskDescription_container.hidden(id=`id${task.id}`)
-                    div(class='task_description_header_container')
-                        h2(class='todo_header') Tasks
-                        h2.task_name #{task.header}
-                    form#deleteTaskForm(action=`/deleteTask/${task.id}` method='post')
-                    form#updateTaskForm(action=`/updateTask/${task.id}` method='post')
-                        div.taskDescription_content
-                            div.taskDescription_priority(class=`${task.color}`)
-                                p Приоритет: #{task.priority.split(' ')[0].toLowerCase()}
-                            div.taskDescription_advanced
-                                div.taskDescription_header
-                                    img(src='/static/description.png')
-                                    h2 Описание
-                                div.taskDescription_text
-                                    textarea(name="info") #{task.info}
-                            div.taskDescription_row_2
-                                div.taskDescription_worker_container
-                                    div.taskDescription_worker_header
-                                        img(src='/static/pfp.png')
-                                        h2 Ответственный за задание
-                                    div.taskDescription_worker_value
-                                        textarea(name="worker") #{task.worker}
-                                div.taskDescription_tag_container
-                                    h2 Метка
-                                    textarea(name="tag") #{task.tag}
-                                div.taskDescription_dl_container
-                                    h2 Дедлайн
-                                    textarea(name="deadline") #{task.dl}
-                            div.taskDescription_statusBar_container
-                                div.taskDescription_statusBar_header
-                                    img(src='/static/status.png')
-                                    h2 Статус
-                                div.taskDescription_statusBar
-                                    div(style=`width: ${task.progress}%`)
-                                    p.statusBar_percent #{task.progress}%
-                        div.taskDescription_btns
-                            input.update_btn(type='submit' value='Обновить' form='updateTaskForm')
-                            input.taskDescription_cancel_btn(type='button' value='Отмена')
-                            input.delete_btn(type='submit' value='Удалить' form='deleteTaskForm')
+        block header
+            div(class='todo_switches')
+                form(action='/closedTasks' method='get')
+                    input.todo_switch#closedTasks(type='submit' value='Closed Tasks')
+                form(action='/dashboard' method='get')
+                    input.active.todo_switch#openTasks(type='submit' value='TODO List') 
+                form(action='/addTaskPage' method='get')
+                    input.todo_switch#closedTasks(type='submit' value='Add A Task') 
+        block content
+            div(class='todo_container openTasks')
+                div(class='todo_header_container')
+                    h2(class='todo_header') Tasks
+                    div(class='sort_btn')
+                        p Сортировать по меткам
+                        img(src='/static/sort.png' alt='sort')
+                div.todo_content_container
+                    each val in tasksList
+                        if val.openStatus
+                            div.task_container(id=`id${val.id}`)
+                                div.task_priority(class=`${val.color}`)
+                                div.task
+                                    div.task_block
+                                        div.task_header(id=`id${val.id}`)
+                                            p #{val.header}
+                                            p #{val.worker}
+                                        if val.expandStatus
+                                            div.task_addition_info_container(id=`id${val.id}`)
+                                                div.task_text_prioirity
+                                                    p #{val.priority}
+                                                div.task_addition_info
+                                                    p #{val.info}
+                                                div.task_deadline
+                                                    p #{val.dl}
+                                        else 
+                                            div.task_addition_info_container.hidden(id=`id${val.id}`)
+                                                div.task_text_prioirity
+                                                    p #{val.priority}
+                                                div.task_addition_info
+                                                    p #{val.info}
+                                                div.task_deadline
+                                                    p #{val.dl}
+                                    div.task_btns
+                                        form(action=`/closeTask/${val.id}` method='post')
+                                            input(type='submit', value='Завершить').close_task_btn
+                                        form(action=`/deleteTask/${val.id}` method='post')
+                                            input(type='submit', value='Удалить' id=`id${val.id}`).delete_task_btn
+                                if val.expandStatus
+                                    div.task_expand.task_expand_rotate(id=`id${val.id}`)
+                                        div.task_expand_top
+                                        div.task_expand_bottom
+                                else 
+                                    div.task_expand(id=`id${val.id}`)
+                                        div.task_expand_top
+                                        div.task_expand_bottom
+                div.todo_footer
+                    p Итого заданий: #{openTasks.length}
+            div(class='todo_container hidden closedTasks')
+                div(class='todo_header_container')
+                    h2(class='todo_header') Closed Tasks
+                div.todo_content_container
+                    each val in tasksList
+                        if val.openStatus
+                        else
+                            div.task_container(id=`id${val.id}`)
+                                div.task_priority(class=`${val.color}`)
+                                div.task
+                                    div.task_block
+                                        div.task_header(id=`id${val.id}`)
+                                            p #{val.header}
+                                            p #{val.worker}
+                                        if val.expandStatus
+                                            div.task_addition_info_container(id=`id${val.id}`)
+                                                div.task_text_prioirity
+                                                    p #{val.priority}
+                                                div.task_addition_info
+                                                    p #{val.info}
+                                                div.task_deadline
+                                                    p #{val.dl}
+                                        else 
+                                            div.task_addition_info_container.hidden(id=`id${val.id}`)
+                                                div.task_text_prioirity
+                                                    p #{val.priority}
+                                                div.task_addition_info
+                                                    p #{val.info}
+                                                div.task_deadline
+                                                    p #{val.dl}
+                                    div.task_btns
+                                        form(action=`/resetTask/${val.id}` method='post')
+                                            input(type='submit', value='Восстановить задание').reset_task_btn
+                                if val.expandStatus
+                                    div.task_expand.task_expand_rotate(id=`id${val.id}`)
+                                        div.task_expand_top
+                                        div.task_expand_bottom
+                                else 
+                                    div.task_expand(id=`id${val.id}`)
+                                        div.task_expand_top
+                                        div.task_expand_bottom
+                div.todo_footer
+                    p Итого заданий: #{closedTasks.length}
+            div(class='todo_container addTask hidden')
+                div(class='todo_header_container')
+                    h2(class='todo_header') Add a Task
+                div.addTask_container
+                    form(action='/addTask' method='post')
+                        div.addTask_input#name
+                            h3 Название задачи
+                            input(name='name' type='text' placeholder='Название задачи...' reqired)
+                        div.addTask_input#worker
+                            h3 Ответственный за задание
+                            input(name='worker' type='text' placeholder='Выбрать сотрудника' reqired)
+                        div.addTask_input#priority
+                            h3 Приоритет задания
+                            input(name='priority' type='text' placeholder='Приоритет' reqired)
+                        div.addTask_input#tag
+                            h3 Метка задания
+                            input(name='tag' type='text' placeholder='Метка задания' reqired)
+                        div.addTaskDescription_container.addTask_input#info
+                            h3 Описание задачи
+                            textarea(name='info' placeholder='Описание...' reqired)
+                        div.addTask_input#deadline
+                            h3 Дедлайн
+                            input(name='deadline' type='text' placeholder='22.02.2022' reqired)
+                        div.addTask_btns
+                            input.addTask_btn(type='submit' value='Добавить')
+                            input.cancel_btn(type='submit' value='Отмена')
+            div(class='todo_container taskDescription hidden')
+                each task in tasksList
+                    div.taskDescription_container.hidden(id=`id${task.id}`)
+                        div(class='task_description_header_container')
+                            h2(class='todo_header') Tasks
+                            h2.task_name #{task.header}
+                        form#deleteTaskForm(action=`/deleteTask/${task.id}` method='post')
+                        form#updateTaskForm(action=`/updateTask/${task.id}` method='post')
+                            div.taskDescription_content
+                                div.taskDescription_priority(class=`${task.color}`)
+                                    p Приоритет: #{task.priority.split(' ')[0].toLowerCase()}
+                                div.taskDescription_advanced
+                                    div.taskDescription_header
+                                        img(src='/static/description.png')
+                                        h2 Описание
+                                    div.taskDescription_text
+                                        textarea(name="info") #{task.info}
+                                div.taskDescription_row_2
+                                    div.taskDescription_worker_container
+                                        div.taskDescription_worker_header
+                                            img(src='/static/pfp.png')
+                                            h2 Ответственный за задание
+                                        div.taskDescription_worker_value
+                                            textarea(name="worker") #{task.worker}
+                                    div.taskDescription_tag_container
+                                        h2 Метка
+                                        textarea(name="tag") #{task.tag}
+                                    div.taskDescription_dl_container
+                                        h2 Дедлайн
+                                        textarea(name="deadline") #{task.dl}
+                                div.taskDescription_statusBar_container
+                                    div.taskDescription_statusBar_header
+                                        img(src='/static/status.png')
+                                        h2 Статус
+                                    div.taskDescription_statusBar
+                                        div(style=`width: ${task.progress}%`)
+                                        p.statusBar_percent #{task.progress}%
+                            div.taskDescription_btns
+                                input.update_btn(type='submit' value='Обновить' form='updateTaskForm')
+                                input.taskDescription_cancel_btn(type='button' value='Отмена')
+                                input.delete_btn(type='submit' value='Удалить' form='deleteTaskForm')

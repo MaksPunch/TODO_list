@@ -34,7 +34,7 @@
     "worker": "Тарасов Максим",
     "tag": "Прочее",
     "color": "green",
-    "openStatus": true,
+    "openStatus": false,
     "expandStatus": false,
     "progress": 100
   }

@@ -33,15 +33,18 @@ textarea {
 	color: rgba(0, 0, 0, 0.5);
 }
 
-.todo_switches h1 {
+.todo_switches input {
 	cursor: pointer;
 	font-size: 64px;
-	line-height: 25px;
 	transition: color .2s ease-out;
+	border: 0;
+	outline: none;
+	background: #fff;
+	color: rgba(0, 0, 0, 0.5);
 }
 
 .active {
-	color: #000;
+	color: #000 !important;
 }
 
 .todo_container {

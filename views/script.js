@@ -3,7 +3,7 @@ let switches = document.querySelectorAll('.todo_switch');
 let windows = document.querySelectorAll('.todo_container');
 let taskDescriptionContainers = document.querySelectorAll('.taskDescription_container');
 
-switches.forEach( (value) => {
+/* switches.forEach( (value) => {
 	let id = value.id;
 	value.addEventListener('click', () => {
 		document.querySelector('.active').classList.remove('active');
@@ -16,7 +16,7 @@ switches.forEach( (value) => {
 			task.classList.add('hidden');
 		})
 	})
-})
+}) */
 
 let expandBtns = document.querySelectorAll('.task_expand');
 

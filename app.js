@@ -152,6 +152,14 @@ app.get('/dashboard', function (request, response) {
   response.render('dashboard', variables())
 })
 
+app.get('/closedTasks', (req, res) => {
+  res.render('closedTasks', variables())
+})
+
+app.get('/addTaskPage', (req, res) => {
+  res.render('addTask', variables())
+})
+
 app.use('/static', express.static(path.join(__dirname, "img")));
 
 app.get('/', function (request, response) {

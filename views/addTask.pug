@@ -1,0 +1,43 @@
+extends layout.pug 
+
+block title
+    title #{title}
+
+
+block todo_list
+    div(class='todo_list')
+        block header
+            div(class='todo_switches')
+                form(action='/closedTasks' method='get')
+                    input.todo_switch#closedTasks(type='submit' value='Closed Tasks')
+                form(action='/dashboard' method='get')
+                    input.todo_switch#openTasks(type='submit' value='TODO List') 
+                form(action='/addTaskPage' method='get')
+                    input.active.todo_switch#closedTasks(type='submit' value='Add A Task') 
+        block content
+            div(class='todo_container addTask')
+                div(class='todo_header_container')
+                    h2(class='todo_header') Add a Task
+                div.addTask_container
+                    form(action='/addTask' method='post')
+                        div.addTask_input#name
+                            h3 Название задачи
+                            input(name='name' type='text' placeholder='Название задачи...' reqired)
+                        div.addTask_input#worker
+                            h3 Ответственный за задание
+                            input(name='worker' type='text' placeholder='Выбрать сотрудника' reqired)
+                        div.addTask_input#priority
+                            h3 Приоритет задания
+                            input(name='priority' type='text' placeholder='Приоритет' reqired)
+                        div.addTask_input#tag
+                            h3 Метка задания
+                            input(name='tag' type='text' placeholder='Метка задания' reqired)
+                        div.addTaskDescription_container.addTask_input#info
+                            h3 Описание задачи
+                            textarea(name='info' placeholder='Описание...' reqired)
+                        div.addTask_input#deadline
+                            h3 Дедлайн
+                            input(name='deadline' type='text' placeholder='22.02.2022' reqired)
+                        div.addTask_btns
+                            input.addTask_btn(type='submit' value='Добавить')
+                            input.cancel_btn(type='submit' value='Отмена')

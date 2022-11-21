@@ -1,0 +1,60 @@
+extends layout.pug 
+
+block title
+    title #{title}
+
+
+block todo_list
+    div(class='todo_list')
+        block header
+            div(class='todo_switches')
+                form(action='/closedTasks' method='get')
+                    input.active.todo_switch#closedTasks(type='submit' value='Closed Tasks')
+                form(action='/dashboard' method='get')
+                    input.todo_switch#openTasks(type='submit' value='TODO List') 
+                form(action='/addTaskPage' method='get')
+                    input.todo_switch#AddTask(type='submit' value='Add A Task') 
+        block content
+            div(class='todo_container closedTasks')
+                    div(class='todo_header_container')
+                        h2(class='todo_header') Closed Tasks
+                    div.todo_content_container
+                        each val in tasksList
+                            if val.openStatus
+                            else
+                                div.task_container(id=`id${val.id}`)
+                                    div.task_priority(class=`${val.color}`)
+                                    div.task
+                                        div.task_block
+                                            div.task_header(id=`id${val.id}`)
+                                                p #{val.header}
+                                                p #{val.worker}
+                                            if val.expandStatus
+                                                div.task_addition_info_container(id=`id${val.id}`)
+                                                    div.task_text_prioirity
+                                                        p #{val.priority}
+                                                    div.task_addition_info
+                                                        p #{val.info}
+                                                    div.task_deadline
+                                                        p #{val.dl}
+                                            else 
+                                                div.task_addition_info_container.hidden(id=`id${val.id}`)
+                                                    div.task_text_prioirity
+                                                        p #{val.priority}
+                                                    div.task_addition_info
+                                                        p #{val.info}
+                                                    div.task_deadline
+                                                        p #{val.dl}
+                                        div.task_btns
+                                            form(action=`/resetTask/${val.id}` method='post')
+                                                input(type='submit', value='Восстановить задание').reset_task_btn
+                                    if val.expandStatus
+                                        div.task_expand.task_expand_rotate(id=`id${val.id}`)
+                                            div.task_expand_top
+                                            div.task_expand_bottom
+                                    else 
+                                        div.task_expand(id=`id${val.id}`)
+                                            div.task_expand_top
+                                            div.task_expand_bottom
+                    div.todo_footer
+                        p Итого заданий: #{closedTasks.length}
