@@ -48,7 +48,7 @@ block todo_list
                                         form(action=`/dashboard/closeTask/${val.id}` method='post')
                                             input(type='submit', value='Завершить').close_task_btn
                                         form(action=`/dashboard/deleteTask/${val.id}` method='post')
-                                            input(type='submit', value='Удалить' id=`id${val.id}`).delete_task_btn
+                                            input(type='button', value='Удалить' id=`id${val.id}`).delete_task_btn
                                 if val.expandStatus
                                     div.task_expand.task_expand_rotate(id=`id${val.id}`)
                                         div.task_expand_top
@@ -59,3 +59,5 @@ block todo_list
                                         div.task_expand_bottom
                 div.todo_footer
                     p Итого заданий: #{openTasks.length}
+    script 
+        include js/dashboard.js

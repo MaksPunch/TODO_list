@@ -62,10 +62,9 @@ app.post('/dashboard/addTask', urlencodedParser, (req, res) => {
       if (err) throw err;
     })
   })
-  res.redirect('/dashboard')
 })
 
-app.post('/dashboard/deleteTask/:id', (req, res) => {
+app.delete('/dashboard/deleteTask/:id', (req, res) => {
   jsonfile.readFile(filePath, (err, obj) => {
     if (err) throw err
     let fileObj = obj;
@@ -79,25 +78,27 @@ app.post('/dashboard/deleteTask/:id', (req, res) => {
       if (err) throw err;
     })
   })
-  res.redirect('/dashboard')
+  res.redirect(303, '/dashboard')
 })
 
-app.post('/dashboard/updateTask/:id', urlencodedParser, (req, res) => {
+app.put('/dashboard/updateTask/:id', urlencodedParser, (req, res) => {
   if (!req.body) return res.sendStatus(400)
   let prev = file[req.params.id];
+  console.log(req.body.worker)
   const user = {
     id: prev.id,
     priority: prev.priority,
-    info: req.body.info || prev.info,
-    dl: req.body.deadline || prev.dl,
+    info: req.body.info,
+    dl: req.body.deadline,
     header: prev.header,
-    worker: req.body.worker || prev.worker,
-    tag: req.body.tag || prev.tag,
+    worker: req.body.worker,
+    tag: req.body.tag,
     color: prev.color,
     openStatus: true,
     expandStatus: false,
-    progress: req.body.progressBar || prev.progress
+    progress: req.body.progressBar
   }
+  console.log(user)
   jsonfile.readFile(filePath, (err, obj) => {
     if (err) throw err
     let fileObj = obj;
@@ -111,7 +112,6 @@ app.post('/dashboard/updateTask/:id', urlencodedParser, (req, res) => {
       if (err) throw err;
     })
   })
-  res.redirect('/dashboard')
 })
 
 app.post('/dashboard/closeTask/:id', (req, res) => {
@@ -176,6 +176,12 @@ app.get('/dashboard/closedTasks', (req, res) => {
   res.render('closedTasks', variables())
 })
 
+app.delete('/test/:id', (req, res) => {
+  console.log(`deleted task #${req.params.id}`)
+
+  res.redirect(303, '/dashboard')
+})
+
 app.post('/dashboard', function (request, response) {
   response.redirect('/dashboard')
 })
@@ -187,7 +193,7 @@ app.get('/dashboard', function (request, response) {
 app.use('/static', express.static(path.join(__dirname, "img")));
 
 app.get('/', function (request, response) {
-  response.send('Главная страница')
+  response.render('test', variables())
 })
 
 app.listen(3000, () => {

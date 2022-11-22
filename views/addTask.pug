@@ -40,5 +40,7 @@ block todo_list
                             h3 Дедлайн
                             input(name='deadline' type='text' placeholder='22.02.2022' reqired)
                         div.addTask_btns
-                            input.addTask_btn(type='submit' value='Добавить')
+                            input.addTask_btn(type='click' value='Добавить')
                             input.cancel_btn(type='submit' value='Отмена' form='cancelChanges')
+    script 
+        include js/addTask.js

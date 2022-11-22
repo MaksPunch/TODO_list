@@ -55,6 +55,8 @@ block todo_list
                                             div.statusBar(style=`width: ${task.progress}%` id=`progress${task.id}`)
                                             input(type='number' name='progressBar' value=`${task.progress}` class='statusBar_percent' max='100' min='0')
                                 div.taskDescription_btns
-                                    input.update_btn(type='submit' value='Обновить' form='updateTaskForm')
+                                    input.update_btn(type='button' value='Обновить' form='updateTaskForm' id=`${task.id}`)
                                     input.taskDescription_cancel_btn(type='submit' value='Отмена' form='cancelChanges')
-                                    input.delete_btn(type='submit' value='Удалить' form='deleteTaskForm')
+                                    input.delete_btn(type='button' value='Удалить' form='deleteTaskForm' id=`${task.id}`)
+    script 
+        include js/taskDescription.js
