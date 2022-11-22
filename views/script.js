@@ -30,7 +30,7 @@ expandBtns.forEach( (value) => {
 
 let taskHeaders = document.querySelectorAll('.task_header');
 
-taskHeaders.forEach( (value) => {
+/* taskHeaders.forEach( (value) => {
 	let taskContainer = document.querySelector('div#'+value.id+'.taskDescription_container');
 	let todoWindows = document.querySelectorAll('.todo_container');
 	let taskDescription = document.querySelector('.taskDescription');
@@ -41,4 +41,16 @@ taskHeaders.forEach( (value) => {
 		})
 		taskDescription.classList.remove('hidden');
 	})
+}) */
+
+taskHeaders.forEach( (value) => {
+	value.addEventListener('click', () => {
+		document.querySelector(`form#${value.id}`).submit();
+	})
+})
+
+let statusBarInput = document.querySelector('.statusBar_percent')
+
+statusBarInput.addEventListener('blur', (e) => {
+	document.querySelector('.statusBar').style.width = `${e.target.value}%`
 })

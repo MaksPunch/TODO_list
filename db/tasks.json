@@ -9,7 +9,7 @@
     "tag": "Дизайн",
     "color": "red",
     "openStatus": true,
-    "expandStatus": false,
+    "expandStatus": true,
     "progress": 90
   },
   {
@@ -23,7 +23,7 @@
     "color": "red",
     "openStatus": true,
     "expandStatus": false,
-    "progress": 100
+    "progress": 90
   },
   {
     "id": 2,
@@ -36,6 +36,18 @@
     "color": "green",
     "openStatus": false,
     "expandStatus": false,
+    "progress": 100
+  },
+  {
+    "id": 3,
+    "priority": "Высокий приоритет",
+    "info": "Необходимо разгрузить коробки со склада",
+    "dl": "23.11.2022",
+    "header": "Разгрузка коробок",
+    "worker": "Виктор Никифорович",
+    "color": "red",
+    "openStatus": false,
+    "expandStatus": true,
     "progress": 100
   }
 ]

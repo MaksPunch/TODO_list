@@ -8,11 +8,11 @@ block todo_list
     div(class='todo_list')
         block header
             div(class='todo_switches')
-                form(action='/closedTasks' method='get')
+                form(action='/dashboard/closedTasks' method='post')
                     input.active.todo_switch#closedTasks(type='submit' value='Closed Tasks')
-                form(action='/dashboard' method='get')
+                form(action='/dashboard' method='post')
                     input.todo_switch#openTasks(type='submit' value='TODO List') 
-                form(action='/addTaskPage' method='get')
+                form(action='/dashboard/addTaskPage' method='post')
                     input.todo_switch#AddTask(type='submit' value='Add A Task') 
         block content
             div(class='todo_container closedTasks')
@@ -26,6 +26,7 @@ block todo_list
                                     div.task_priority(class=`${val.color}`)
                                     div.task
                                         div.task_block
+                                            form(action=`/dashboard/taskDescription/${val.id}` method='post' id=`id${val.id}`)
                                             div.task_header(id=`id${val.id}`)
                                                 p #{val.header}
                                                 p #{val.worker}
@@ -46,7 +47,7 @@ block todo_list
                                                     div.task_deadline
                                                         p #{val.dl}
                                         div.task_btns
-                                            form(action=`/resetTask/${val.id}` method='post')
+                                            form(action=`/dashboard/resetTask/${val.id}` method='post')
                                                 input(type='submit', value='Восстановить задание').reset_task_btn
                                     if val.expandStatus
                                         div.task_expand.task_expand_rotate(id=`id${val.id}`)

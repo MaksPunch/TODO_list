@@ -1,0 +1,60 @@
+extends layout.pug 
+
+block title
+    title #{title}
+
+
+block todo_list
+    div(class='todo_list')
+        block header
+            div(class='todo_switches')
+                form(action='/dashboard/closedTasks' method='post')
+                    input.todo_switch#closedTasks(type='submit' value='Closed Tasks')
+                form(action='/dashboard' method='post')
+                    input.active.todo_switch#openTasks(type='submit' value='TODO List') 
+                form(action='/dashboard/addTaskPage' method='post')
+                    input.todo_switch#AddTask(type='submit' value='Add A Task')
+        block content
+            div(class='todo_container taskDescription ')
+                each task in tasksList
+                    if task.id==taskId
+                        div.taskDescription_container(id=`id${task.id}`)
+                            div(class='task_description_header_container')
+                                h2(class='todo_header') Tasks
+                                h2.task_name #{task.header}
+                            form#deleteTaskForm(action=`/dashboard/deleteTask/${task.id}` method='post')
+                            form#cancelChanges(action=`/dashboard` method='get')
+                            form#updateTaskForm(action=`/dashboard/updateTask/${task.id}` method='post')
+                                div.taskDescription_content
+                                    div.taskDescription_priority(class=`${task.color}`)
+                                        p Приоритет: #{task.priority.split(' ')[0].toLowerCase()}
+                                    div.taskDescription_advanced
+                                        div.taskDescription_header
+                                            img(src='/static/description.png')
+                                            h2 Описание
+                                        div.taskDescription_text
+                                            textarea(name="info") #{task.info}
+                                    div.taskDescription_row_2
+                                        div.taskDescription_worker_container
+                                            div.taskDescription_worker_header
+                                                img(src='/static/pfp.png')
+                                                h2 Ответственный за задание
+                                            div.taskDescription_worker_value
+                                                textarea(name="worker") #{task.worker}
+                                        div.taskDescription_tag_container
+                                            h2 Метка
+                                            textarea(name="tag") #{task.tag}
+                                        div.taskDescription_dl_container
+                                            h2 Дедлайн
+                                            textarea(name="deadline") #{task.dl}
+                                    div.taskDescription_statusBar_container
+                                        div.taskDescription_statusBar_header
+                                            img(src='/static/status.png')
+                                            h2 Статус
+                                        div.taskDescription_statusBar
+                                            div.statusBar(style=`width: ${task.progress}%` id=`progress${task.id}`)
+                                            input(type='number' name='progressBar' value=`${task.progress}` class='statusBar_percent' max='100' min='0')
+                                div.taskDescription_btns
+                                    input.update_btn(type='submit' value='Обновить' form='updateTaskForm')
+                                    input.taskDescription_cancel_btn(type='submit' value='Отмена' form='cancelChanges')
+                                    input.delete_btn(type='submit' value='Удалить' form='deleteTaskForm')

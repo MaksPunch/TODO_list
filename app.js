@@ -14,12 +14,13 @@ const filePath = "./db/tasks.json"
 
 let file = jsonfile.readFileSync(filePath)
 
-const variables = () =>  {
-  return {
-    title: 'TODO list',
-    tasksList: file,
-    openTasks: file.filter((a)=>(a.openStatus==true)),
-    closedTasks: file.filter((a)=>a.openStatus==false)
+let variables = (id) => {
+return {
+      title: 'TODO list',
+      tasksList: file,
+      openTasks: file.filter((a)=>a.openStatus==true),
+      closedTasks: file.filter((a)=>a.openStatus==false),
+      taskId: id || 1
   }
 }
 
@@ -37,7 +38,7 @@ app.disable("x-powered-by");
 
 app.set('view engine', 'pug')
 
-app.post('/addTask', urlencodedParser, (req, res) => {
+app.post('/dashboard/addTask', urlencodedParser, (req, res) => {
   if (!req.body) return res.sendStatus(400)
   const user = {
     id: file.length,
@@ -64,12 +65,15 @@ app.post('/addTask', urlencodedParser, (req, res) => {
   res.redirect('/dashboard')
 })
 
-app.post('/deleteTask/:id', (req, res) => {
+app.post('/dashboard/deleteTask/:id', (req, res) => {
   jsonfile.readFile(filePath, (err, obj) => {
     if (err) throw err
     let fileObj = obj;
     for(let i = 0; i < fileObj.length; i++) {
-      if (fileObj[i].id == req.params.id) fileObj.splice(i, 1);
+      if (fileObj[i].id == req.params.id) {
+        fileObj.splice(i, 1)
+        file.splice(i, 1)
+      }
     }
     jsonfile.writeFile(filePath, fileObj, { spaces: 2 }, (err) => {
       if (err) throw err;
@@ -78,21 +82,21 @@ app.post('/deleteTask/:id', (req, res) => {
   res.redirect('/dashboard')
 })
 
-app.post('/updateTask/:id', urlencodedParser, (req, res) => {
+app.post('/dashboard/updateTask/:id', urlencodedParser, (req, res) => {
   if (!req.body) return res.sendStatus(400)
   let prev = file[req.params.id];
   const user = {
     id: prev.id,
     priority: prev.priority,
     info: req.body.info || prev.info,
-    dl: req.body.deadline || prev.deadline,
+    dl: req.body.deadline || prev.dl,
     header: prev.header,
     worker: req.body.worker || prev.worker,
     tag: req.body.tag || prev.tag,
     color: prev.color,
     openStatus: true,
     expandStatus: false,
-    progress: 0
+    progress: req.body.progressBar || prev.progress
   }
   jsonfile.readFile(filePath, (err, obj) => {
     if (err) throw err
@@ -100,9 +104,9 @@ app.post('/updateTask/:id', urlencodedParser, (req, res) => {
     for (let i = 0; i < fileObj.length; i++) {
       if(fileObj[i].id == req.params.id) {
         fileObj[i] = user
+        file[i] = user
       }
     }
-    file.push(user);
     jsonfile.writeFile(filePath, fileObj, { spaces: 2 }, (err) => {
       if (err) throw err;
     })
@@ -110,7 +114,7 @@ app.post('/updateTask/:id', urlencodedParser, (req, res) => {
   res.redirect('/dashboard')
 })
 
-app.post('/closeTask/:id', (req, res) => {
+app.post('/dashboard/closeTask/:id', (req, res) => {
   jsonfile.readFile(filePath, (err, obj) => {
     if (err) throw err
     let fileObj = obj;
@@ -129,7 +133,7 @@ app.post('/closeTask/:id', (req, res) => {
   res.redirect('/dashboard')
 })
 
-app.post('/resetTask/:id', (req, res) => {
+app.post('/dashboard/resetTask/:id', (req, res) => {
   jsonfile.readFile(filePath, (err, obj) => {
     if (err) throw err
     let fileObj = obj;
@@ -145,19 +149,39 @@ app.post('/resetTask/:id', (req, res) => {
       if (err) throw err;
     })
   })
-  res.redirect('/dashboard')
+  res.redirect('/dashboard/closedTasks')
+})
+
+app.post('/dashboard/addTaskPage', (req, res) => {
+  res.redirect('./addTaskPage')
+})
+
+app.get('/dashboard/addTaskPage', (req, res) => {
+  res.render('addTask', variables())
+})
+
+app.post('/dashboard/taskDescription/:id', (req, res) => {
+  res.redirect(`/dashboard/taskDescription/${req.params.id}`)
+})
+
+app.get('/dashboard/taskDescription/:id', (req, res) => {
+  res.render('taskDescription', variables(req.params.id))
+})
+
+app.post('/dashboard/closedTasks', (req, res) => {
+  res.redirect('./closedTasks')
+})
+
+app.get('/dashboard/closedTasks', (req, res) => {
+  res.render('closedTasks', variables())
+})
+
+app.post('/dashboard', function (request, response) {
+  response.redirect('/dashboard')
 })
 
 app.get('/dashboard', function (request, response) {
   response.render('dashboard', variables())
-})
-
-app.get('/closedTasks', (req, res) => {
-  res.render('closedTasks', variables())
-})
-
-app.get('/addTaskPage', (req, res) => {
-  res.render('addTask', variables())
 })
 
 app.use('/static', express.static(path.join(__dirname, "img")));
