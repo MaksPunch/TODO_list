@@ -6,13 +6,29 @@ const cors = require("cors");
 const morgan = require("morgan");
 const jsonfile = require("jsonfile")
 var bodyParser = require('body-parser')
+var mysql = require('mysql');
 const urlencodedParser = bodyParser.urlencoded({
   extended: false,
 })
 
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : '123456',
+  database : 'todoList'
+});
+
 const filePath = "./db/tasks.json"
 
 let file = jsonfile.readFileSync(filePath)
+
+connection.connect();
+
+let sqldb = connection.query('SELECT * FROM tasksList',  (err, results, fields) => {
+  if (err) throw err
+})
+
+connection.end();
 
 let variables = (id) => {
 return {
@@ -174,12 +190,6 @@ app.post('/dashboard/closedTasks', (req, res) => {
 
 app.get('/dashboard/closedTasks', (req, res) => {
   res.render('closedTasks', variables())
-})
-
-app.delete('/test/:id', (req, res) => {
-  console.log(`deleted task #${req.params.id}`)
-
-  res.redirect(303, '/dashboard')
 })
 
 app.post('/dashboard', function (request, response) {

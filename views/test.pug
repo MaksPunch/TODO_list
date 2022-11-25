@@ -1,5 +1,6 @@
 block content 
-    button.test Тык
+    each val in tasksList
+        button.test #{val.header}
 
 script 
     include test.js

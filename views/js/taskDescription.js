@@ -17,12 +17,10 @@ const deleteReq = (id) => {
 
 document.querySelector('.delete_btn').addEventListener('click', (e) => deleteReq(e.target.id.match(/[0-9]+/gi).join('')))
 
-
-
 const putReq = async (id) => {
 	const form = document.querySelector('#updateTaskForm')
 	const formData = new URLSearchParams(new FormData(form))
-	
+
 	return await fetch(`/dashboard/updateTask/${id}`, {
 		method: "PUT",
 		body: formData

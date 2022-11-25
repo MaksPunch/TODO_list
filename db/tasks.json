@@ -45,6 +45,7 @@
     "dl": "23.11.2022",
     "header": "Разгрузка коробок",
     "worker": "Виктор Никифорович",
+    "tag": "Прочее",
     "color": "red",
     "openStatus": false,
     "expandStatus": true,
