@@ -6,7 +6,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 const jsonfile = require("jsonfile")
 var bodyParser = require('body-parser')
-const dashboardRouter = require('./routes/dashboardRouter.js');
+const dashboardRouter = require('./server/routes/dashboardRouter.js');
 const { connect } = require('http2');
 
 const urlencodedParser = bodyParser.urlencoded({
