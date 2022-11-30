@@ -47,8 +47,7 @@ block todo_list
                                                     div.task_deadline
                                                         p #{val.dl}
                                         div.task_btns
-                                            form(action=`/dashboard/resetTask/${val.id}` method='post')
-                                                input(type='submit', value='Восстановить задание').reset_task_btn
+                                            input(type='submit', value='Удалить' id=`id${val.id}`).delete_task_btn
                                     if val.expandStatus
                                         div.task_expand.task_expand_rotate(id=`id${val.id}`)
                                             div.task_expand_top
@@ -61,3 +60,4 @@ block todo_list
                         p Итого заданий: #{closedTasks.length}
     script
         include js/dashboard.js
+        include js/closedTasks.js

@@ -340,16 +340,28 @@ textarea {
 }
 
 .taskDescription_priority {
+	display: flex;
+	gap: 5px;
 	width: fit-content;
 	padding: 10px 5px;
-	font-size: 36px;
+	font-size: 24px;
 	font-weight: 700;
 	border-radius: 15px;
 }
 
 .taskDescription_priority p {
+	text-shadow: 0px 1px 4px rgba(0, 0, 0, 0.75);
+}
+
+.taskPriorityText {
+	outline: none;
 	width: auto;
 }
+
+.hiddenInput {
+	display: none;
+}
+
 
 .taskDescription_header {
 	display: flex;

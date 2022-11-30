@@ -17,18 +17,20 @@ const deleteReq = (id) => {
 
 document.querySelector('.delete_btn').addEventListener('click', (e) => deleteReq(e.target.id.match(/[0-9]+/gi).join('')))
 
-const putReq = async (id) => {
+const putReq = (id) => {
+    let priority = document.querySelector('.taskPriorityText').textContent
+    document.querySelector('.hiddenInput').value = priority;
 	const form = document.querySelector('#updateTaskForm')
 	const formData = new URLSearchParams(new FormData(form))
 
-	return await fetch(`/dashboard/updateTask/${id}`, {
+	return fetch(`/dashboard/updateTask/${id}`, {
 		method: "PUT",
 		body: formData
 	})
     .then(res => {
         if (res.redirected) {
-            res.text(200)
+            window.location.href = res.url
         }
     })
 }
-document.querySelector('.update_btn').addEventListener('click', async (e) => await putReq(e.target.id.match(/[0-9]+/gi).join('')))
+document.querySelector('.update_btn').addEventListener('click', (e) => putReq(e.target.id.match(/[0-9]+/gi).join('')))

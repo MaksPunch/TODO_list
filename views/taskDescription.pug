@@ -27,7 +27,9 @@ block todo_list
                             form#updateTaskForm(action=`/dashboard/updateTask/${task.id}` method='post')
                                 div.taskDescription_content
                                     div.taskDescription_priority(class=`${task.color}`)
-                                        p Приоритет: #{task.priority.split(' ')[0].toLowerCase()}
+                                        p Приоритет: 
+                                        p.taskPriorityText(contenteditable='true') #{task.priority.split(' ')[0].toLowerCase()}
+                                        input.hiddenInput(name='priority')
                                     div.taskDescription_advanced
                                         div.taskDescription_header
                                             img(src='/static/description.png')
